@@ -1,0 +1,26 @@
+p {
+  margin-top: 0px;
+  margin-bottom: 0;
+}
+/*here arial is back up font if roboto dosent load*/
+body {
+  margin: 0;
+  height: 1000px;
+  padding-top: 80px;
+  padding-right: 24px;
+  background-color: rgb(248, 248, 248);
+  font-family: roboto, Arial;
+}
+/*the property which styles font is applied on all text elements in the body. this is called inheritance, where the propertyof outer element is applied on inner element.
+if font color is applied in body element all text will be colored unless it is changed for a perticular element. this is called css specificity. it can be used to set a default style.*/
+@media (max-width: 1199px) {
+  body {
+    padding-left: 96px;
+  }
+}
+
+@media (min-width: 1200px) {
+  body {
+    margin-left: 224px;
+  }
+}
