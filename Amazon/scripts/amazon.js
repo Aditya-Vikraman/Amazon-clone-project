@@ -25,7 +25,7 @@ products.forEach ((product) => {
       </div>
 
       <div class="product-quantity-container">
-        <select>
+        <select class="js-quantity-selector-${product.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -41,7 +41,7 @@ products.forEach ((product) => {
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart">
+      <div class="added-to-cart js-added-to-cart-${product.id}">
         <img src="images/icons/checkmark.png">
         Added
       </div>
@@ -56,10 +56,16 @@ products.forEach ((product) => {
 //data-name is a data attribute. data attribute name has to start with data- then attribute name seperated by - (kebab-case)
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
+
+const addToCartTextTimeouts = {};
 // to retrieve the data from button type name as camelCase
 document.querySelectorAll('.js-add-to-cart').forEach ((button) => {
   button.addEventListener('click', () => {
-    const productId= button.dataset.productId;
+    const productId = button.dataset.productId;
+
+    const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+
+    const quantitySelectorValue = Number(quantitySelector.value);
 
     let matchingItem;
 
@@ -70,13 +76,13 @@ document.querySelectorAll('.js-add-to-cart').forEach ((button) => {
     });
 
     if (matchingItem) {
-      matchingItem.quantity += 1;
+      matchingItem.quantity += quantitySelectorValue;
     }
 
     else {
       cart.push({
         productId: productId,
-        quantity: 1,
+        quantity: quantitySelectorValue,
       });
     }
 
@@ -87,5 +93,21 @@ document.querySelectorAll('.js-add-to-cart').forEach ((button) => {
   
     document.querySelector('.js-cart-quantity').innerHTML =
     cartQuantity;
+    
+    const addToCartText = document.querySelector(`.js-added-to-cart-${productId}`);
+
+    addToCartText.classList.add('added-to-cart-visible');
+    
+    const previousTimeoutId = addToCartTextTimeouts[productId];
+    if (previousTimeoutId) {
+      clearTimeout(previousTimeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
+      addToCartText.classList.remove('added-to-cart-visible')
+    }, 1500);
+
+    addToCartTextTimeouts[productId] = timeoutId;
+    
   });
 });
