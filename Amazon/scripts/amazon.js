@@ -90,6 +90,8 @@ document.querySelectorAll('.js-add-to-cart').forEach ((button) => {
     cart.forEach ((item) => {
       cartQuantity += item.quantity;
     })
+
+    localStorage.setItem('cart',JSON.stringify(cart));
   
     document.querySelector('.js-cart-quantity').innerHTML =
     cartQuantity;
@@ -108,6 +110,5 @@ document.querySelectorAll('.js-add-to-cart').forEach ((button) => {
     }, 1500);
 
     addToCartTextTimeouts[productId] = timeoutId;
-    
   });
 });
